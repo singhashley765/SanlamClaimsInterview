@@ -1,0 +1,85 @@
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+charset = utf-8-bom
+insert_final_newline = true
+
+# Default severity for StyleCop analyzers: warning (not error) so builds don't break immediately.
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.severity = warning
+
+# SA1633: File should have a header - disabled, no license header policy yet.
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1101: Prefix local calls with this - disabled, not the team's style.
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1309: Field names should not begin with underscore - disabled, _camelCase is used for private fields.
+dotnet_diagnostic.SA1309.severity = none
+
+# SA1200: Using directives should be placed correctly - disabled, conflicts with implicit usings.
+dotnet_diagnostic.SA1200.severity = none
+
+# SA0001: XML comment analysis disabled - intentional, documentation is opt-in per stylecop.json.
+dotnet_diagnostic.SA0001.severity = none
+
+# SA1313: Parameter names must begin with lowercase - disabled, positional record parameters
+# generate public properties and must use PascalCase (SA1300). StyleCop 1.1.x pre-dates records.
+dotnet_diagnostic.SA1313.severity = none
+
+# SA1623/SA1629: documentation text style - disabled, docs are optional per stylecop.json.
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.SA1602.severity = none
+
+# SA1516: Elements should be separated by blank line - disabled.
+# Auto-property entity/settings/DTO classes are intentionally compact; enforcing blank lines
+# between every property would hurt readability. Also fires incorrectly on the
+# compiler-synthesised partial class in top-level programs (API/simulator projects).
+dotnet_diagnostic.SA1516.severity = none
+
+# SA1009: Closing parenthesis spacing - disabled for C# records.
+# StyleCop 1.1.x pre-dates record primary constructors and incorrectly fires on the
+# standard `) : IInterface` syntax in record declarations.
+dotnet_diagnostic.SA1009.severity = none
+
+# SA1011: Closing square bracket should be followed by a space - disabled.
+# StyleCop 1.1.x does not recognise the null-forgiving operator (!) after an indexer
+# expression (e.g. config["Key"]!) and incorrectly demands a space between ] and !.
+dotnet_diagnostic.SA1011.severity = none
+
+# SA1008: Opening parenthesis should not be preceded by a space - disabled.
+# StyleCop 1.1.x pre-dates C# 9 pattern combinators (`is not ('0' or '1')`) and misreads the
+# space before the grouped pattern's `(` as a cast/parenthesis spacing violation.
+dotnet_diagnostic.SA1008.severity = none
+
+# SA1010: Opening square bracket should not be preceded by a space - disabled.
+# StyleCop 1.1.x pre-dates C# 12 collection expressions (`= [Foo.Bar]`) and misreads the
+# space before the literal's `[` as an indexer/array-brackets violation.
+dotnet_diagnostic.SA1010.severity = none
+
+# SA1202: Elements should be ordered by access - relaxed for a private-then-internal
+# constructor pair (EF-required parameterless private ctor, test-only internal ctor);
+# ordering by intent (EF ctor first) reads better here than strict access-level ordering.
+dotnet_diagnostic.SA1202.severity = none
+
+# SA1206: Modifier order - disabled. StyleCop 1.1.x pre-dates the C# 11 `required` keyword
+# and asks for `required public` ahead of it, which is invalid: the only legal (and idiomatic)
+# order is `public required string Foo { get; init; }`.
+dotnet_diagnostic.SA1206.severity = none
+
+# SA1649: File name must match type name - disabled. StyleCop 1.1.x's implementation of this
+# rule throws (AD0001) on a `record` declaration rather than evaluating it, which happens
+# throughout the simulator Program.cs files (several small internal records/classes per file
+# alongside top-level statements) — a real mismatch would still be obvious on sight.
+dotnet_diagnostic.SA1649.severity = none
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+# EF Core migrations are generated, not hand-written, and get regenerated whenever the model
+# changes — style-checking them would just mean re-fighting the generator's formatting forever.
+[**/Migrations/*.cs]
+generated_code = true
+dotnet_diagnostic.SA1413.severity = none
